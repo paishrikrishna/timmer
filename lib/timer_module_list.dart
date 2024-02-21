@@ -52,7 +52,7 @@ class _ListOfModulesState extends State<ListOfModules>{
               int deviceCount = 0;
               deviceCount = int.parse(value1);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SetTimer(deviceCount: deviceCount);
+                return SetTimer(ScheduleCount: deviceCount);
               }));
             });
           }

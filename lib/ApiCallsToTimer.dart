@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 class ApiCallsToTimer{
   
   Future<String> connectionStatus(String IP) async {
-    var resp =  await http.get(Uri.parse('http://'+IP+'/'));
+    String Url = 'http://$IP/?year=${DateTime.now().year}&month=${DateTime.now().month}&date=${DateTime.now().day}&hr=${DateTime.now().hour}&min=${DateTime.now().minute}&sec=${DateTime.now().second}';
+    var resp =  await http.get(Uri.parse(Url));
     return resp.body;
   }
 
@@ -12,4 +13,10 @@ class ApiCallsToTimer{
     return resp.body;
   }
 
+  Future<String> pushSchedule(String Start_hr,String Start_min,String End_hr,String End_min,String Relay_code,String Day_code) async{
+    String Url = 'http://192.168.1.1/?Start_hr=${Start_hr}&Start_min=${Start_min}&End_hr=${End_hr}&End_min=${End_min}&Relay_code=${Relay_code}&Day_code=${Day_code}';
+    var resp =  await http.get(Uri.parse(Url));
+    return resp.body;
+  }
+  
 }

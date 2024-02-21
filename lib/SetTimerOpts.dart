@@ -1,20 +1,21 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:timmer/SetTimer.dart';
 
 class SetTimer extends StatefulWidget{
-  final int deviceCount;
-  const SetTimer({Key? key, required this.deviceCount}) : super(key: key);
+  final int ScheduleCount;
+  const SetTimer({Key? key, required this.ScheduleCount}) : super(key: key);
 
   @override
-  State<SetTimer> createState() => _SetTimer(deviceCount: deviceCount);
+  State<SetTimer> createState() => _SetTimer(ScheduleCount: ScheduleCount);
 }
 
 
 class _SetTimer extends State<SetTimer>{
 
-  _SetTimer({required this.deviceCount});
-  final int deviceCount;
+  _SetTimer({required this.ScheduleCount});
+  final int ScheduleCount;
 
   @override
   void initState() {
@@ -52,12 +53,25 @@ class _SetTimer extends State<SetTimer>{
               ),
               body: ListView.separated(
                       padding: const EdgeInsets.all(8),
-                      itemCount: deviceCount,
+                      itemCount: ScheduleCount,
                       itemBuilder: (BuildContext context, int index) {
                         return SelectTimer((index+1).toString());
                       },
                       separatorBuilder: (BuildContext context, int index) => const Divider(),
                     ),
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return CreateSchedules(ScheduleNo: '0');
+                  }));
+                },
+                icon: const Icon(Icons.add),
+                label: const Text('Add Schedules'),
+                elevation: 12,
+                backgroundColor: Color.fromARGB(116, 61, 201, 96),
+                foregroundColor: Colors.white
+
+              )
             )
           );
     }
@@ -66,9 +80,9 @@ class _SetTimer extends State<SetTimer>{
 
 class SelectTimer extends StatelessWidget { 
 
-  SelectTimer(this.TimerNo);
+  SelectTimer(this.ScheduleNo);
 
-  final String TimerNo;
+  final String ScheduleNo;
 
   @override 
   Widget build(BuildContext context){ 
@@ -79,7 +93,9 @@ class SelectTimer extends StatelessWidget {
                 Center(
                   child:  GestureDetector(
                     onTap: (){
-                      
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return CreateSchedules(ScheduleNo: ScheduleNo);
+                      }));
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -97,7 +113,7 @@ class SelectTimer extends StatelessWidget {
                       width: MediaQuery.of(context).size.width*0.9,
                       child:  Center(
                         child: Text(
-                          "SetUp Timer For R$TimerNo",
+                          "SetUp Timer For R$ScheduleNo",
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                           textAlign: TextAlign.center,
                           softWrap: false,
