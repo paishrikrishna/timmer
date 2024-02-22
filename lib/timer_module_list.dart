@@ -48,7 +48,7 @@ class _ListOfModulesState extends State<ListOfModules>{
       
       ApiCallsToTimer().connectionStatus('192.168.1.1').then((value) {
           if (value.toLowerCase() == 'connected to server'){
-            ApiCallsToTimer().deviceCount('192.168.1.1').then((value1) {
+            ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
               int deviceCount = 0;
               deviceCount = int.parse(value1);
               Navigator.push(context, MaterialPageRoute(builder: (context) {

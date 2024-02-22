@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:timmer/SetTimer.dart';
+import 'package:timmer/ApiCallsToTimer.dart';
 
 class SetTimer extends StatefulWidget{
   final int ScheduleCount;
@@ -61,9 +62,13 @@ class _SetTimer extends State<SetTimer>{
                     ),
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return CreateSchedules(ScheduleNo: '0');
-                  }));
+                  ApiCallsToTimer().ScheduleDetails("A").then((value) {
+                    List<String> Payload = value.split(";");
+                    
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return CreateSchedules(T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
+                    }));
+                  });
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Add Schedules'),
@@ -93,9 +98,13 @@ class SelectTimer extends StatelessWidget {
                 Center(
                   child:  GestureDetector(
                     onTap: (){
+                      ApiCallsToTimer().ScheduleDetails(ScheduleNo).then((value) {
+                      List<String> Payload = value.split(";");
+                      
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return CreateSchedules(ScheduleNo: ScheduleNo);
+                          return CreateSchedules(T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
                       }));
+                    });
                     },
                     child: Container(
                       decoration: const BoxDecoration(
