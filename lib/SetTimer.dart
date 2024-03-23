@@ -2,12 +2,14 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:timmer/ApiCallsToTimer.dart';
+import 'package:timmer/SetTimerOpts.dart';
 
 
 const List<String> list = <String>['AM','PM'];
 
 class CreateSchedules extends StatefulWidget{
-  //final String ScheduleNo;
+  final String ScheduleNo;
   final String T_Start_hr;
   final String T_Start_min;
   final String T_End_hr;
@@ -15,17 +17,17 @@ class CreateSchedules extends StatefulWidget{
   final List<String> Checks;
   final List<String> Relays;
   
-  const CreateSchedules({Key? key, required this.T_Start_hr,required this.T_Start_min,required this.T_End_hr,required this.T_End_min,required this.Checks,required this.Relays}) : super(key: key);
+  const CreateSchedules({Key? key, required this.ScheduleNo,required this.T_Start_hr,required this.T_Start_min,required this.T_End_hr,required this.T_End_min,required this.Checks,required this.Relays}) : super(key: key);
 
   @override
-  State<CreateSchedules> createState() => _CreateSchedules(T_Start_hr: T_Start_hr,T_Start_min: T_Start_min,T_End_hr: T_End_hr,T_End_min: T_End_min,Checks: Checks,Relays: Relays);
+  State<CreateSchedules> createState() => _CreateSchedules(ScheduleNo: ScheduleNo,T_Start_hr: T_Start_hr,T_Start_min: T_Start_min,T_End_hr: T_End_hr,T_End_min: T_End_min,Checks: Checks,Relays: Relays);
 }
 
 
 class _CreateSchedules extends State<CreateSchedules>{
 
-  _CreateSchedules({required this.T_Start_hr,required this.T_Start_min,required this.T_End_hr,required this.T_End_min,required this.Checks,required this.Relays});
-  //final String ScheduleNo;
+  _CreateSchedules({required this.ScheduleNo,required this.T_Start_hr,required this.T_Start_min,required this.T_End_hr,required this.T_End_min,required this.Checks,required this.Relays});
+  final String ScheduleNo;
   final String T_Start_hr;
   final String T_Start_min;
   final String T_End_hr;
@@ -33,6 +35,8 @@ class _CreateSchedules extends State<CreateSchedules>{
   final List<String> Checks;
   final List<String> Relays;
 
+  String ReqType = "";
+  String ScheduleNo_F = 'Save S';
   int Start_hr = 6;
   int Start_min = 10;
   String Start_Dur = 'AM';
@@ -51,19 +55,21 @@ class _CreateSchedules extends State<CreateSchedules>{
   @override
   void initState() {
     super.initState();
-    Start_hr = int.parse(T_Start_hr);
+    ScheduleNo_F = (ScheduleNo=="A")?"Save Schedules":"Update Schedule";
+    ReqType = (ScheduleNo_F=="Update Schedule")?ScheduleNo:"I";
+    Start_hr = (int.parse(T_Start_hr)>12)?(int.parse(T_Start_hr)-12):(int.parse(T_Start_hr)==0)?12:int.parse(T_Start_hr);
     Start_min = int.parse(T_Start_min);
-    Start_Dur = 'AM';
-    End_hr = int.parse(T_End_hr);
+    Start_Dur = (int.parse(T_Start_hr)>=12)?"PM":"AM";
+    End_hr = (int.parse(T_End_hr)>12)?(int.parse(T_End_hr)-12):(int.parse(T_End_hr)==0)?12:int.parse(T_End_hr);
     End_min = int.parse(T_End_min);
-    End_Dur = 'AM';
-    MondaycheckBoxValue = bool.parse(Checks[0]);
-    TuesdaycheckBoxValue = bool.parse(Checks[1]);
-    WednesdaycheckBoxValue = bool.parse(Checks[2]);
-    ThursdaycheckBoxValue = bool.parse(Checks[3]);
-    FridaycheckBoxValue = bool.parse(Checks[4]);
-    SatudaycheckBoxValue = bool.parse(Checks[5]);
-    SundaycheckBoxValue = bool.parse(Checks[6]);
+    End_Dur = (int.parse(T_End_hr)>=12)?"PM":"AM";
+    MondaycheckBoxValue = bool.parse(Checks[1]);
+    TuesdaycheckBoxValue = bool.parse(Checks[2]);
+    WednesdaycheckBoxValue = bool.parse(Checks[3]);
+    ThursdaycheckBoxValue = bool.parse(Checks[4]);
+    FridaycheckBoxValue = bool.parse(Checks[5]);
+    SatudaycheckBoxValue = bool.parse(Checks[6]);
+    SundaycheckBoxValue = bool.parse(Checks[0]);
     Map<String,bool> samVal = {};
     for(var i=0;i<Relays.length;i++){
       samVal[(i+1).toString()] = bool.parse(Relays[i]);
@@ -377,19 +383,108 @@ class _CreateSchedules extends State<CreateSchedules>{
                                   ]
                                 )
                               ),
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                            Visibility(
+                                              visible: (ScheduleNo_F=="Update Schedule")?true:false,
+                                              child: Container(
+                                                        child: GestureDetector(
+                                                        onTap: () {
+                                                          ApiCallsToTimer().DeleteScheduleDetails(ScheduleNo).then((value) {
+                                                            print("Deleted Schedule $ScheduleNo");
+                                                            ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
+                                                              int deviceCount = 0;
+                                                              deviceCount = int.parse(value1);
+                                                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                                return SetTimer(ScheduleCount: deviceCount);
+                                                              }));
+                                                            });
+                                                          });
+                                                        },
+                                                      child: Container(
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(color: Colors.red),
+                                                                color: Colors.red,
+                                                                borderRadius: BorderRadius.all(Radius.circular(10) ),
+                                                              ),
+                                                              padding: const EdgeInsets.all(4),
+                                                              child: const Row(
+                                                                children: [
+                                                                  Icon(Icons.delete,color: Colors.white,),
+                                                                  SizedBox(width: 2,),
+                                                                  Text("Delete Schedule",style: TextStyle(color: Colors.white),),    
+                                                                ],
+                                                              )
+                                                              ,
+                                                            ),
+                                                      )
+                                                    ),
+                                            ),
+                                            Container(
+                                                child: GestureDetector(
+                                                onTap: (){
+                                                  String Days = "${(SundaycheckBoxValue == true)?'1':'0'}${(MondaycheckBoxValue == true)?'1':'0'}${(TuesdaycheckBoxValue == true)?'1':'0'}${(WednesdaycheckBoxValue == true)?'1':'0'}${(ThursdaycheckBoxValue == true)?'1':'0'}${(FridaycheckBoxValue == true)?'1':'0'}${(SatudaycheckBoxValue == true)?'1':'0'}";
+                                                  String Relays = "";
+                                                  for(var i =0;i<values.keys.length;i++){
+                                                    Relays += "${(values[values.keys.toList()[i]] == true)?'1':'0'}";
+                                                  }
+                                                  if(Start_Dur == 'AM'){
+                                                    Start_hr = ((Start_hr) == 12)?0:(Start_hr);
+                                                  }
+                                                  else{
+                                                    Start_hr = (((Start_hr) == 12)?12:(12 + Start_hr));
+                                                  }
+
+                                                  if(End_Dur == 'AM'){
+                                                    End_hr = ((End_hr) == 12)?0:(End_hr);
+                                                  }
+                                                  else{
+                                                    End_hr = (((End_hr) == 12)?12:(12 + End_hr));
+                                                  }
+
+                                                  ApiCallsToTimer().pushSchedule(Start_hr.toString(),Start_min.toString(),End_hr.toString(),End_min.toString(),Relays,Days,ReqType).then((value) {
+                                                    print("Update");
+                                                    print(value);
+                                                    ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
+                                                      int deviceCount = 0;
+                                                      deviceCount = int.parse(value1);
+                                                      print("Total Schedules $deviceCount");
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                        return SetTimer(ScheduleCount: deviceCount);
+                                                      }));
+                                                    });
+                                                  },);
+
+                                                  print(Days);
+                                                  print(Relays);
+                                                },
+                                              child: Container(
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(color: Colors.green),
+                                                        color: Colors.green,
+                                                        borderRadius: BorderRadius.all(Radius.circular(10) ),
+                                                      ),
+                                                      padding: const EdgeInsets.all(4),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(Icons.save,color: Colors.white,),
+                                                          SizedBox(width: 2,),
+                                                          Text(ScheduleNo_F,style: TextStyle(color: Colors.white),),    
+                                                        ],
+                                                      )
+                                                      ,
+                                                    ),
+                                              )
+                                            )
+                                          ],
+                                )
+                              ),
                 ],
               ),
-              floatingActionButton: FloatingActionButton.extended(
-                                onPressed: (){
-                                  
-                                },
-                                icon: const Icon(Icons.save),
-                                label: const Text('Save Schedules'),
-                                elevation: 12,
-                                backgroundColor: Color.fromARGB(116, 61, 201, 96),
-                                foregroundColor: Colors.white
-                              ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             )
           );
     }

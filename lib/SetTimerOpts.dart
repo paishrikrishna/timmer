@@ -66,7 +66,7 @@ class _SetTimer extends State<SetTimer>{
                     List<String> Payload = value.split(";");
                     
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return CreateSchedules(T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
+                        return CreateSchedules(ScheduleNo: "A",T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
                     }));
                   });
                 },
@@ -98,11 +98,12 @@ class SelectTimer extends StatelessWidget {
                 Center(
                   child:  GestureDetector(
                     onTap: (){
-                      ApiCallsToTimer().ScheduleDetails(ScheduleNo).then((value) {
+                      print(ScheduleNo);
+                      ApiCallsToTimer().ScheduleDetails(ScheduleNo.toString()).then((value) {
                       List<String> Payload = value.split(";");
-                      
+                      print(Payload);
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return CreateSchedules(T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
+                          return CreateSchedules(ScheduleNo: ScheduleNo,T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
                       }));
                     });
                     },
@@ -118,7 +119,6 @@ class SelectTimer extends StatelessWidget {
                           ),
                         ],
                       ),
-                      height: MediaQuery.of(context).size.height*0.25,
                       width: MediaQuery.of(context).size.width*0.9,
                       child:  Center(
                         child: Text(
@@ -133,5 +133,7 @@ class SelectTimer extends StatelessWidget {
                 ),
               ],
             );
-    } 
+    }
+
+  
 }
