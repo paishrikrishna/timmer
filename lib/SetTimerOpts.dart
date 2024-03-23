@@ -122,7 +122,7 @@ class SelectTimer extends StatelessWidget {
                       width: MediaQuery.of(context).size.width*0.9,
                       child:  Center(
                         child: Text(
-                          "SetUp Timer For R$ScheduleNo",
+                          "Schedule $ScheduleNo",
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                           textAlign: TextAlign.center,
                           softWrap: false,
