@@ -6,17 +6,19 @@ import 'package:timmer/ApiCallsToTimer.dart';
 
 class SetTimer extends StatefulWidget{
   final int ScheduleCount;
-  const SetTimer({Key? key, required this.ScheduleCount}) : super(key: key);
+  final List <String> Schedule_dets; 
+  const SetTimer({Key? key, required this.ScheduleCount, required this.Schedule_dets}) : super(key: key);
 
   @override
-  State<SetTimer> createState() => _SetTimer(ScheduleCount: ScheduleCount);
+  State<SetTimer> createState() => _SetTimer(ScheduleCount: ScheduleCount, Schedule_dets: Schedule_dets);
 }
 
 
 class _SetTimer extends State<SetTimer>{
 
-  _SetTimer({required this.ScheduleCount});
+  _SetTimer({required this.ScheduleCount, required this.Schedule_dets});
   final int ScheduleCount;
+  final List <String> Schedule_dets; 
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _SetTimer extends State<SetTimer>{
                       padding: const EdgeInsets.all(8),
                       itemCount: ScheduleCount,
                       itemBuilder: (BuildContext context, int index) {
-                        return SelectTimer((index+1).toString());
+                        return SelectTimer((index+1).toString(),Schedule_dets);
                       },
                       separatorBuilder: (BuildContext context, int index) => const Divider(),
                     ),
@@ -85,9 +87,12 @@ class _SetTimer extends State<SetTimer>{
 
 class SelectTimer extends StatelessWidget { 
 
-  SelectTimer(this.ScheduleNo);
+  SelectTimer(this.ScheduleNo, this.Schedule_dets);
 
   final String ScheduleNo;
+  final List <String> Schedule_dets;
+  
+
 
   @override 
   Widget build(BuildContext context){ 
@@ -98,10 +103,8 @@ class SelectTimer extends StatelessWidget {
                 Center(
                   child:  GestureDetector(
                     onTap: (){
-                      print(ScheduleNo);
                       ApiCallsToTimer().ScheduleDetails(ScheduleNo.toString()).then((value) {
                       List<String> Payload = value.split(";");
-                      print(Payload);
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return CreateSchedules(ScheduleNo: ScheduleNo,T_Start_hr: Payload[0].split(":")[0],T_Start_min: Payload[0].split(":")[1],T_End_hr: Payload[1].split(":")[0],T_End_min: Payload[1].split(":")[1],Checks: Payload[2].split(","),Relays: Payload[3].split(","));
                       }));
@@ -122,7 +125,8 @@ class SelectTimer extends StatelessWidget {
                       width: MediaQuery.of(context).size.width*0.9,
                       child:  Center(
                         child: Text(
-                          "Schedule $ScheduleNo",
+                          //"Schedule $ScheduleNo",
+                          "\n${ Schedule_dets[int.parse(ScheduleNo)-1].split(";")[0] } ${ Schedule_dets[int.parse(ScheduleNo)-1].split(";")[1] } To ${ Schedule_dets[int.parse(ScheduleNo)-1].split(";")[2] } ${ Schedule_dets[int.parse(ScheduleNo)-1].split(";")[3] } \n",
                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                           textAlign: TextAlign.center,
                           softWrap: false,

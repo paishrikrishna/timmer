@@ -398,9 +398,10 @@ class _CreateSchedules extends State<CreateSchedules>{
                                                             print("Deleted Schedule $ScheduleNo");
                                                             ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
                                                               int deviceCount = 0;
-                                                              deviceCount = int.parse(value1);
+                                                              List <String> payload = value1.split(",");
+                                                              deviceCount = payload.length;
                                                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                                                return SetTimer(ScheduleCount: deviceCount);
+                                                                return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
                                                               }));
                                                             });
                                                           });
@@ -451,10 +452,10 @@ class _CreateSchedules extends State<CreateSchedules>{
                                                     print(value);
                                                     ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
                                                       int deviceCount = 0;
-                                                      deviceCount = int.parse(value1);
-                                                      print("Total Schedules $deviceCount");
+                                                      List <String> payload = value1.split(",");
+                                                      deviceCount = payload.length;
                                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                                        return SetTimer(ScheduleCount: deviceCount);
+                                                        return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
                                                       }));
                                                     });
                                                   },);

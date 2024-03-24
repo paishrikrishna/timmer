@@ -50,9 +50,10 @@ class _ListOfModulesState extends State<ListOfModules>{
           if (value.toLowerCase() == 'connected to server'){
             ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
               int deviceCount = 0;
-              deviceCount = int.parse(value1);
+              List <String> payload = value1.split(",");
+              deviceCount = payload.length;
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SetTimer(ScheduleCount: deviceCount);
+                return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
               }));
             });
           }
