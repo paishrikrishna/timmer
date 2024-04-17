@@ -51,7 +51,10 @@ class _ListOfModulesState extends State<ListOfModules>{
             ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
               int deviceCount = 0;
               List <String> payload = value1.split(",");
-              deviceCount = payload.length;
+              print(payload);
+              if(payload[0]!='') {
+                deviceCount = payload.length;
+              }
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
               }));
@@ -121,16 +124,16 @@ class _ListOfModulesState extends State<ListOfModules>{
               colorScheme: const ColorScheme(
                 brightness: Brightness.light,
                 primary: Color.fromARGB(116, 61, 201, 96),
-                onPrimary: Colors.black,
+                onPrimary: Colors.white,
                 // Colors that are not relevant to AppBar in LIGHT mode:
-                primaryVariant: Colors.grey,
-                secondary: Colors.grey,
-                secondaryVariant: Colors.grey,
-                onSecondary: Colors.grey,
-                background: Colors.grey,
+                //primaryVariant: Colors.grey,
+                secondary: Colors.white,
+                //secondaryVariant: Colors.grey,
+                onSecondary: Colors.white,
+                background: Colors.white,
                 onBackground: Colors.grey,
-                surface: Colors.grey,
-                onSurface: Colors.grey,
+                surface: Color.fromARGB(116, 61, 201, 96),
+                onSurface: Colors.white,
                 error: Colors.grey,
                 onError: Colors.grey,
               ),

@@ -87,13 +87,13 @@ class _CreateSchedules extends State<CreateSchedules>{
                 primary: Color.fromARGB(116, 61, 201, 96),
                 onPrimary: Colors.black,
                 // Colors that are not relevant to AppBar in LIGHT mode:
-                primaryVariant: Colors.grey,
+                //primaryVariant: Colors.grey,
                 secondary: Colors.grey,
-                secondaryVariant: Colors.grey,
+                //secondaryVariant: Colors.grey,
                 onSecondary: Colors.grey,
-                background: Colors.grey,
+                background: Colors.white,
                 onBackground: Colors.grey,
-                surface: Colors.grey,
+                surface: Color.fromARGB(116, 61, 201, 96),
                 onSurface: Colors.grey,
                 error: Colors.grey,
                 onError: Colors.grey,
@@ -399,7 +399,9 @@ class _CreateSchedules extends State<CreateSchedules>{
                                                             ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
                                                               int deviceCount = 0;
                                                               List <String> payload = value1.split(",");
-                                                              deviceCount = payload.length;
+                                                              if(payload[0]!='') {
+                                                                deviceCount = payload.length;
+                                                              }
                                                               Navigator.push(context, MaterialPageRoute(builder: (context) {
                                                                 return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
                                                               }));
@@ -453,7 +455,9 @@ class _CreateSchedules extends State<CreateSchedules>{
                                                     ApiCallsToTimer().ScheduleCount('192.168.1.1').then((value1) {
                                                       int deviceCount = 0;
                                                       List <String> payload = value1.split(",");
-                                                      deviceCount = payload.length;
+                                                      if(payload[0]!='') {
+                                                        deviceCount = payload.length;
+                                                      }
                                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
                                                         return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
                                                       }));

@@ -17,7 +17,7 @@ class SetTimer extends StatefulWidget{
 class _SetTimer extends State<SetTimer>{
 
   _SetTimer({required this.ScheduleCount, required this.Schedule_dets});
-  final int ScheduleCount;
+  int ScheduleCount;
   final List <String> Schedule_dets; 
 
   @override
@@ -34,13 +34,13 @@ class _SetTimer extends State<SetTimer>{
                 primary: Color.fromARGB(116, 61, 201, 96),
                 onPrimary: Colors.black,
                 // Colors that are not relevant to AppBar in LIGHT mode:
-                primaryVariant: Colors.grey,
+                //primaryVariant: Colors.grey,
                 secondary: Colors.grey,
-                secondaryVariant: Colors.grey,
+                //secondaryVariant: Colors.grey,
                 onSecondary: Colors.grey,
-                background: Colors.grey,
-                onBackground: Colors.grey,
-                surface: Colors.grey,
+                background: Colors.white,
+                onBackground: Colors.white,
+                surface: Color.fromARGB(116, 61, 201, 96),
                 onSurface: Colors.grey,
                 error: Colors.grey,
                 onError: Colors.grey,
