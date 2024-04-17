@@ -19,6 +19,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
+      Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return const ListOfModules();
         

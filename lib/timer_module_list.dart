@@ -55,6 +55,7 @@ class _ListOfModulesState extends State<ListOfModules>{
               if(payload[0]!='') {
                 deviceCount = payload.length;
               }
+              Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return SetTimer(ScheduleCount: deviceCount, Schedule_dets:payload);
               }));
