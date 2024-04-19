@@ -31,7 +31,7 @@ class _SetTimer extends State<SetTimer>{
             theme: ThemeData(
               colorScheme: const ColorScheme(
                 brightness: Brightness.light,
-                primary: Color.fromARGB(116, 61, 201, 96),
+                primary: Color.fromARGB(255, 30, 180, 164),
                 onPrimary: Colors.black,
                 // Colors that are not relevant to AppBar in LIGHT mode:
                 //primaryVariant: Colors.grey,
@@ -40,7 +40,7 @@ class _SetTimer extends State<SetTimer>{
                 onSecondary: Colors.grey,
                 background: Colors.white,
                 onBackground: Colors.white,
-                surface: Color.fromARGB(116, 61, 201, 96),
+                surface: Color.fromARGB(255, 30, 180, 164),
                 onSurface: Colors.grey,
                 error: Colors.grey,
                 onError: Colors.grey,
@@ -48,11 +48,12 @@ class _SetTimer extends State<SetTimer>{
             ),
             home: Scaffold(
               appBar: AppBar(
-                title: const Row(
+                title: Image.asset('assets/images/AppBAR_Logo.jpg', height: 50,),
+                /*const Row(
                   children: [
                     Text("WasserCraft", style: TextStyle(color: Colors.white),),
                   ],
-                ),
+                ),*/
               ),
               body: ListView.separated(
                       padding: const EdgeInsets.all(8),

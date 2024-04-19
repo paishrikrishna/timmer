@@ -18,7 +18,7 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 5), () {
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return const ListOfModules();
@@ -33,9 +33,9 @@ class _MainAppState extends State<MainApp> {
             elevation: 10,
             child: Container(
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 30, 180, 164),
                 image: DecorationImage(
-                  image: AssetImage("assets/images/Logo.png"),
+                  image: AssetImage("assets/images/Logo.jpg"),
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.center,
                 ),

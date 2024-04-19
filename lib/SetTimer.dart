@@ -84,7 +84,7 @@ class _CreateSchedules extends State<CreateSchedules>{
             theme: ThemeData(
               colorScheme: const ColorScheme(
                 brightness: Brightness.light,
-                primary: Color.fromARGB(116, 61, 201, 96),
+                primary: Color.fromARGB(255, 30, 180, 164),
                 onPrimary: Colors.black,
                 // Colors that are not relevant to AppBar in LIGHT mode:
                 //primaryVariant: Colors.grey,
@@ -93,7 +93,7 @@ class _CreateSchedules extends State<CreateSchedules>{
                 onSecondary: Colors.grey,
                 background: Colors.white,
                 onBackground: Colors.grey,
-                surface: Color.fromARGB(116, 61, 201, 96),
+                surface: Color.fromARGB(255, 30, 180, 164),
                 onSurface: Colors.grey,
                 error: Colors.grey,
                 onError: Colors.grey,
@@ -101,11 +101,7 @@ class _CreateSchedules extends State<CreateSchedules>{
             ),
             home: Scaffold(
               appBar: AppBar(
-                title: const Row(
-                  children: [
-                    Text("WasserCraft", style: TextStyle(color: Colors.white),),
-                  ],
-                ),
+                title: Image.asset('assets/images/AppBAR_Logo.jpg', height: 50,),
               ),
               body: Column(
                 children: [
