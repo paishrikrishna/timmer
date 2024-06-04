@@ -158,11 +158,11 @@ class _ListOfModulesState extends State<ListOfModules>{
                             },
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Color.fromARGB(240, 137, 140, 236),
+                                color: Color.fromARGB(255, 30, 180, 164),
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey,
+                                    color: Colors.white,
                                     offset: Offset(0.0, 1.0), //(x,y)
                                     blurRadius: 6.0,
                                   ),
@@ -173,7 +173,7 @@ class _ListOfModulesState extends State<ListOfModules>{
                               child: const Center(
                                 child: Text(
                                   "Connect to Device",
-                                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
                                   textAlign: TextAlign.center,
                                   softWrap: false,
                                 )  ,
